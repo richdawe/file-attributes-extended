@@ -1,0 +1,19 @@
+Testing tips:
+
+"...if you put your File::Attributes::Extended
+in your @INC and then run the File::Attributes test suite, it should
+test your module automagically.
+
+It should say:
+
+t/00-load............ok 1/1# Testing File::Attributes 0.02, Perl
+5.008008, /usr/bin/perl
+# Available backends: File::Attributes::Extended File::Attributes::Simple.
+t/00-load............ok
+
+instead of:
+
+t/00-load............ok 1/1# Testing File::Attributes 0.02, Perl
+5.008008, /usr/bin/perl
+# Available backends: File::Attributes::Simple.
+t/00-load............ok"
