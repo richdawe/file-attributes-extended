@@ -18,13 +18,26 @@ XXX
 use strict;
 use warnings;
 use base qw(File::Attributes::Base);
-use File::ExtAttr qw(getfattr setfattr delfattr listfattr);
+use File::ExtAttr 1.01 qw(getfattr setfattr delfattr listfattr);
 
 our $VERSION = '0.01';
 
 sub applicable {
     # XXX: OS check; probably needs some helper function in File::ExtAttr.
-    return 1;
+    # But using what context? This may be path-dependent.
+    #
+    # For now, just assume that it's support on the operating systems
+    # that File::ExtAttr 1.0.1 supports.
+    my %supported = (
+        'linux' => 1,
+        'darwin' => 1, # Mac OS X
+        'freebsd' => 1,
+        'openbsd' => 1,
+        # NetBSD?
+        'solaris' => 1,
+    );
+
+    return $supported{$^O} || 0;
 }
 
 sub get
@@ -34,7 +47,7 @@ sub get
     my $attr = shift;
 
     # XXX: This requires File::ExtAttr to support exceptions.
-    return getattr($file, $attr);
+    return getfattr($file, $attr);
 }
 
 sub set
@@ -45,7 +58,7 @@ sub set
     my $value = shift;
 
     # XXX: This requires File::ExtAttr to support exceptions.
-    setfattr($file, $attr, $value);
+    return setfattr($file, $attr, $value);
 }
 
 sub unset
@@ -55,7 +68,7 @@ sub unset
     my $attr = shift;
 
     # XXX: This requires File::ExtAttr to support exceptions.
-    delfattr($file, $attr);
+    return delfattr($file, $attr);
 }
 
 sub list
